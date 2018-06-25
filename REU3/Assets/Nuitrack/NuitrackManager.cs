@@ -181,6 +181,7 @@ public class NuitrackManager : MonoBehaviour
         Debug.Log("Init OK");
 
         depthSensor = nuitrack.DepthSensor.Create();
+        depthSensor.SetMirror(true);
 
         colorSensor = nuitrack.ColorSensor.Create();
 

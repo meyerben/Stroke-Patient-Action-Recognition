@@ -19,6 +19,7 @@ public class PointCloud : MonoBehaviour
     Color[] rgbColors;
     GameObject[] points;
     
+    
     bool initialized = false;
 
     void Start()
@@ -31,7 +32,7 @@ public class PointCloud : MonoBehaviour
         initialized = true;
 
         nuitrack.OutputMode mode = NuitrackManager.DepthSensor.GetOutputMode(); //Returns the structure in which there is resolution, FPS and FOV of the sensor
-
+        NuitrackManager.DepthSensor.SetMirror(true);
         frameStep = mode.XRes / hRes;
         if (frameStep <= 0) frameStep = 1; // frameStep must be bigger than 0
         hRes = mode.XRes / frameStep;
@@ -51,6 +52,7 @@ public class PointCloud : MonoBehaviour
         depthTexture = new Texture2D(cols, rows, TextureFormat.RFloat, false);
         depthTexture.filterMode = FilterMode.Point;
         depthTexture.wrapMode = TextureWrapMode.Clamp;
+
         depthTexture.Apply();
 
         rgbTexture = new Texture2D(cols, rows, TextureFormat.ARGB32, false);
@@ -84,6 +86,7 @@ public class PointCloud : MonoBehaviour
             }
             depthFrame = NuitrackManager.DepthFrame;
             colorFrame = NuitrackManager.ColorFrame;
+
             if (haveNewFrame) ProcessFrame(depthFrame, colorFrame);
         }
     }
@@ -127,12 +130,15 @@ public class PointCloud : MonoBehaviour
 
                 ++pointIndex;
             }
+            Debug.Log(pointIndex);
         }
 
+        Debug.Log("BREAK1");
         depthTexture.SetPixels(depthColors);
         rgbTexture.SetPixels(rgbColors);
-
+        Debug.Log("Break2");
         depthTexture.Apply();
         rgbTexture.Apply();
     }
+
 }

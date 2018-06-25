@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4246510074526580}
   - component: {fileID: 33092248264385224}
   - component: {fileID: 23604229232892642}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: JointSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
