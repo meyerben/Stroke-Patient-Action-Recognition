@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BasicSkelet.unity
     guid: 7fd016bdd72ae7140a31558cc82db94c
+  - enabled: 0
+    path: Assets/Point Cloud/PointCloud.unity
+    guid: edce5001f60961741bf00e5c43084649
+  - enabled: 0
+    path: Assets/Scenes/Advanced/sceneStickman.unity
+    guid: 7621ffc83409ed84f932973177bcecfb
   m_configObjects: {}
