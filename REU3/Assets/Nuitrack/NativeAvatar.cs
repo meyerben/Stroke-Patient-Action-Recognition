@@ -63,7 +63,7 @@ public class NativeAvatar : MonoBehaviour
         if (CurrentUserTracker.CurrentUser != 0)
         {
             string newData = "";
-            newData += frameNum + "," + System.DateTime.Now;
+            newData += frameNum + "," + System.DateTime.Now.Hour + "" + System.DateTime.Now.Minute + System.DateTime.Now.Second + System.DateTime.Now.Millisecond;
 
 
             nuitrack.Skeleton skeleton = CurrentUserTracker.CurrentSkeleton;

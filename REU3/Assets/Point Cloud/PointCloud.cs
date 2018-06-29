@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.IO;
 using System;
-using System.IO.Compression;
+using System.IO;
 
 public class PointCloud : MonoBehaviour
 {
@@ -14,6 +14,7 @@ public class PointCloud : MonoBehaviour
     [SerializeField] int hRes;
     int frameStep;
     bool record = false;
+    string recordDirectory = "";
 
     [SerializeField] float meshScaling = 1f;
     Texture2D depthTexture;
@@ -79,6 +80,8 @@ public class PointCloud : MonoBehaviour
             if (haveNewFrame) ProcessFrame(depthFrame);
         }
 
+       
+
     }
 
     void ProcessFrame(nuitrack.DepthFrame depthFrame)
@@ -113,52 +116,47 @@ public class PointCloud : MonoBehaviour
         depthTexture.Apply();
         Debug.Log(pointIndex);
 
+        if (record)
+        {
+            string filename = "/" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + DateTime.Now.Second + "-" + DateTime.Now.Millisecond + ".png";
+            byte[] bytes = depthTexture.EncodeToPNG();
+            File.WriteAllBytes(recordDirectory + filename, bytes);
+        }
+
     }
 
     public void OnClick()
     {
-        string directory = "";
+        
         //create directory to save pngs to
 
         if (!record)
         {
             record = true;
-            directory = Directory.CreateDirectory(Application.persistentDataPath + "/" + DateTime.Now.ToLongTimeString()).FullName;
+            recordDirectory = Directory.CreateDirectory(Application.persistentDataPath + "/" + DateTime.Now.ToLongTimeString()).FullName;
 
         }
         else
         {
             record = false;
-            //include zipfile code here
-        }
-
-        while(record)
-        {
-            string filename = "/" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + DateTime.Now.Second + "-" + DateTime.Now.Millisecond + ".png";
-            byte[] bytes = depthTexture.EncodeToPNG();
-
-            File.WriteAllBytes(directory + filename, bytes);
-            
         }
 
        
       
 
-        using (StreamWriter outfile = new StreamWriter(Application.persistentDataPath + "/depthArray.csv"))
-        {
-            for (int x = 0; x < depthArray.Length; x++)
-            {
-                string content = "";
-                for (int y = 0; y < 128; y++)
-                {
-                    content += depthArray[x,y].ToString() + ",";
-                }
-                //trying to write data to csv
-                outfile.WriteLine(content);
-            }
-
-
-        }
+        //using (StreamWriter outfile = new StreamWriter(Application.persistentDataPath + "/depthArray.csv"))
+        //{
+        //    for (int x = 0; x < depthArray.Length; x++)
+        //    {
+        //        string content = "";
+        //        for (int y = 0; y < 128; y++)
+        //        {
+        //            content += depthArray[x,y].ToString() + ",";
+        //        }
+        //        //trying to write data to csv
+        //        outfile.WriteLine(content);
+        //    }
+        //}
     }
 
 }
