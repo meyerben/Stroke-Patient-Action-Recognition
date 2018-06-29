@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.IO;
 using System;
+using System.IO.Compression;
 
 public class PointCloud : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PointCloud : MonoBehaviour
 
     [SerializeField] int hRes;
     int frameStep;
+    bool record = false;
 
     [SerializeField] float meshScaling = 1f;
     Texture2D depthTexture;
@@ -115,11 +117,32 @@ public class PointCloud : MonoBehaviour
 
     public void OnClick()
     {
+        string directory = "";
+        //create directory to save pngs to
 
-        byte[] bytes = depthTexture.EncodeToPNG();
-        
+        if (!record)
+        {
+            record = true;
+            directory = Directory.CreateDirectory(Application.persistentDataPath + "/" + DateTime.Now.ToLongTimeString()).FullName;
 
-        File.WriteAllBytes(Application.persistentDataPath + "/test2.PNG", bytes);
+        }
+        else
+        {
+            record = false;
+            //include zipfile code here
+        }
+
+        while(record)
+        {
+            string filename = "/" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + "-" + DateTime.Now.Second + "-" + DateTime.Now.Millisecond + ".png";
+            byte[] bytes = depthTexture.EncodeToPNG();
+
+            File.WriteAllBytes(directory + filename, bytes);
+            
+        }
+
+       
+      
 
         using (StreamWriter outfile = new StreamWriter(Application.persistentDataPath + "/depthArray.csv"))
         {
