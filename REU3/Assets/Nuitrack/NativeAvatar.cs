@@ -15,7 +15,6 @@ using UnityEngine.UI;
 public class NativeAvatar : MonoBehaviour
 {
     //GUI global variables
-    string message = "Test";
 
     //skeletal global variables
     public nuitrack.JointType[] typeJoint;
@@ -49,8 +48,6 @@ public class NativeAvatar : MonoBehaviour
             CreatedJoint[q] = Instantiate(PrefabJoint);
             CreatedJoint[q].transform.SetParent(transform);
         }
-        message = "Skeleton created";
-
         file.WriteLine(labels);
 
 
@@ -67,7 +64,6 @@ public class NativeAvatar : MonoBehaviour
 
 
             nuitrack.Skeleton skeleton = CurrentUserTracker.CurrentSkeleton;
-            message = "Skeleton found";
 
             for (int q = 0; q < typeJoint.Length; q++)
             {
@@ -85,19 +81,13 @@ public class NativeAvatar : MonoBehaviour
         }
         else
         {
-            message = "Skeleton not found";
         }
 
 
     }
 
-    // Display the message on the screen
-    void OnGUI()
-    {
-        GUI.color = Color.red;
-        GUI.skin.label.fontSize = 50;
-        GUILayout.Label(message);
-    }
+
+ 
 
     void OnApplicationPause(bool pause)
     {
